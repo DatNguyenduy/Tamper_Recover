@@ -20,6 +20,20 @@ def push_aside(table):
             new_table[:,l_index] = table[:,i].copy()
             l_index += 1
     return new_table
+def push_yside(table):
+    M,N = table.shape[:2]
+    
+    new_table = np.zeros_like(table)
+    half_nbrows = int(M/2)
+    for r in range(half_nbrows):
+        for c in range(N):
+            if (int(table[r,c]/N)<half_nbrows):
+                new_table[r,c] = table[r+half_nbrows,c]
+                new_table[r+half_nbrows,c] = table[r,c]
+            else:
+                new_table[r,c] = table[r,c]
+                new_table[r+half_nbrows,c] = table[r+half_nbrows,c]
+    return new_table
 
 def create_luck_up_table(M,N,key):
     new_index = []
