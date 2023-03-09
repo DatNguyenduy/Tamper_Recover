@@ -1,5 +1,7 @@
+import sys
+
 import numpy as np
-from utils import *
+from Re_lee2008.utils import *
 
 def watermark_gen(A,B):
     avg_A = np.mean(A).round().astype(np.uint8)

@@ -54,7 +54,14 @@ def one_pixel_smooth_emb(e,bits):
     if v >= 5: return int(e) + v - 8 if int(e) + v - 8 >=0 else int(e) + v
     if v <= -5 : return int(e) + v + 8 if int(e) + v + 8 <=255 else int(e) + v
     else :return int(e) + v 
-
+def one_pixel_smooth_emb_2bits(e,bits):
+    bits_e = np.unpackbits(e)
+    bits_e[-2:] = bits
+    v = int(np.packbits(bits_e)) - int(e)
+    bits_e[-2:] = np.zeros(2,dtype=np.uint8)
+    if v >= 3: return int(e) + v - 4 if int(e) + v - 4 >=0 else int(e) + v
+    if v <= -3 : return int(e) + v + 4 if int(e) + v + 4 <=255 else int(e) + v
+    else :return int(e) + v
 def one_block_emb(block,joint_12bits):
     nr,nc = block.shape
     new_block = np.zeros_like(block,dtype = np.int16)
@@ -67,7 +74,18 @@ def one_block_emb(block,joint_12bits):
                 print(joint_12bits)
             new_block[ir,ic] = temp
     return np.array(new_block,dtype=np.uint8)
-
+def one_block_emb8(block,joint_8bits):
+    nr,nc = block.shape
+    new_block = np.zeros_like(block,dtype = np.int16)
+    for ir in range(nr):
+        for ic in range(nc):
+            temp = one_pixel_smooth_emb_2bits(block[ir,ic],bits=joint_8bits[(ir*nc+ic)*2:(ir*nc+ic)*2 + 2])
+            if temp<0 or temp >255:
+                print("check")
+                print(block)
+                print(joint_8bits)
+            new_block[ir,ic] = temp
+    return np.array(new_block,dtype=np.uint8)
 def add_XOR_all(array_1d):
     result = array_1d[0]
     for i in range(1,len(array_1d)):
