@@ -80,9 +80,9 @@ def image_gen_emb_w(image,key1,key2,key3):
     nr,nc = image.shape[:2]
     nr_table = int(nr/2)
     nc_table = int(nc/2)
-    lu_table_B = push_yside(create_luck_up_table(nr_table,nc_table,key1))
-    lu_table_G = push_yside(create_luck_up_table(nr_table,nc_table,key2))
-    lu_table_R = push_yside(create_luck_up_table(nr_table,nc_table,key3))
+    lu_table_B = create_luck_up_table(nr_table,nc_table,key1)
+    lu_table_G = create_luck_up_table(nr_table,nc_table,key2)
+    lu_table_R = create_luck_up_table(nr_table,nc_table,key3)
     # print(np.where(lu_table==0))
     half = int(nr_table/2)
     for ir in range(nr_table):
