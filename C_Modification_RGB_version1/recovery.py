@@ -49,9 +49,7 @@ def stage_1_recovery(t_img,key1,key2,key3):
     detect_2 = level_two_detection(detect_1)
     detect_3 = level_three_detection(detect_2)
     final_detection = level_final_detection(detect_3[:,:,0] & detect_3[:,:,1] & detect_3[:,:,2])
-    final_detection[128-41:128+41,128-41:128+41] = 0
     detect_4 = detect_3.copy()
-
     
     r_img[:,:,0],detect_4[:,:,0] = recovery_one_channel(t_img,0,key3,key2,detect_matrix=final_detection)
     r_img[:,:,1],detect_4[:,:,1] = recovery_one_channel(t_img,1,key1,key3,detect_matrix=final_detection)  

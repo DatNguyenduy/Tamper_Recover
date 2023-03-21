@@ -36,14 +36,14 @@ def stage1_recovery(t_img,key):
         for i in range(len(list_invalid[0])):
             ir = list_invalid[0][i]
             ic = list_invalid[1][i]
-            lv4_matrix[2*ir:2*ir+2,2*ic:2*ic+2,channel] = 0
+            lv4_matrix[ir,ic,channel] = 0
             ir_co = int(lu_table[ir,ic]/nc_table)
             ic_co = int(lu_table[ir,ic]%nc_table)
             if detect_matrix[ir_co,ic_co]:
                 valid_block4 = t_img[ir_co*4:ir_co*4+4,ic_co*4:ic_co*4+4,channel].copy()
                 r_block4,p_smooth = stage1_1block4_recovery(valid_block4=valid_block4)
                 r_img[ir*4:ir*4+4,ic*4:ic*4+4,channel] = r_block4
-                lv4_matrix[2*ir:2*ir+2,2*ic:2*ic+2,channel] = 1
+                lv4_matrix[ir,ic,channel] = 1
                 smooth_matrix[2*ir:2*ir+2,2*ic:2*ic+2,channel] = p_smooth
     return r_img,lv4_matrix,smooth_matrix
 def enhance_pixel(pixel,nb_pixel,thresh):
