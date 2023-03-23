@@ -77,3 +77,7 @@ def is_block_smooth(block2,thresh):
             if np.abs(diff_value) > thresh:
                 is_smooth = False
     return is_smooth,avg_B
+def score_IOU(authen_matrix:bool,ground_truth:bool):
+    intersection = np.sum(authen_matrix*ground_truth)
+    union = np.sum(authen_matrix) + np.sum(ground_truth) - intersection
+    return intersection/union
