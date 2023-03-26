@@ -1,6 +1,8 @@
 from detectFv1 import *
 from utilsFv1 import create_luck_up_table
 import numpy as np
+def __init__():
+    pass
 def packbit(list_6_bits):
     joint_8b = np.concatenate((list_6_bits,np.array([0,0],dtype=np.uint8)),dtype=np.uint8)
     return np.packbits(joint_8b)[0]

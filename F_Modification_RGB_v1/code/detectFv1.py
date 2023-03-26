@@ -1,5 +1,7 @@
 from utilsFv1 import add_XOR_all,add_XOR_all_string
 import numpy as np
+def __init__():
+    pass
 
 def wm_au_extract(block2):
     joint_8bits = np.zeros(8,dtype=np.uint8)

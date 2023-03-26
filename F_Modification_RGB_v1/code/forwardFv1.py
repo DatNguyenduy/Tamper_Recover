@@ -1,6 +1,8 @@
 import cv2
 import numpy as np
 from utilsFv1 import *
+def __init__():
+    pass
 def wm_au_gen_8bits(block2):
     bits_B =  np.unpackbits(block2[0,0])
     p = add_XOR_all(bits_B[:6])

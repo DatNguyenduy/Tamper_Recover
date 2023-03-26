@@ -1,5 +1,6 @@
 import numpy as np
-
+def __init__():
+    pass
 def f_1D_transform(index:int,key:int,N:int):
     return (key*(index)% N+ 1)%N
 
