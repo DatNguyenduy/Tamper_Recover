@@ -67,6 +67,7 @@ def stage2_recovery(r1_img,lv4_matrix):
                     r2_img[ir,ic,channel] = np.mean([r1_img[ir-1,ic-1,channel],r1_img[ir-1,ic+1,channel],r1_img[ir+1,ic-1,channel],r1_img[ir+1,ic+1,channel]]).round().astype(np.uint8)
                 else: continue
             else: continue
+<<<<<<< HEAD
     return r2_img,lv5_matrix
 def stage22_recovery(r1_img,lv4_matrix):
     r2_img = r1_img.copy()
@@ -111,4 +112,7 @@ def stage22_recovery(r1_img,lv4_matrix):
             if bits[5] == 0 & bits[6] == 0 & bits[7] == 0:
                 bits[6] = 1
                 r2_img[ir,ic,channel] = np.packbits(bits)
+=======
+    print(count)
+>>>>>>> e1443f51ec984c5ccfbc50fc6bb862ce148c2c73
     return r2_img,lv5_matrix
