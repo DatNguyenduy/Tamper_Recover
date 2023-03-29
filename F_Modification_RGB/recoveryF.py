@@ -68,3 +68,47 @@ def stage2_recovery(r1_img,lv4_matrix):
                 else: continue
             else: continue
     return r2_img,lv5_matrix
+def stage22_recovery(r1_img,lv4_matrix):
+    r2_img = r1_img.copy()
+    nr,nc = r1_img.shape[:2]
+    lv5_matrix = lv4_matrix.copy()
+    count=0
+    
+    for channel in range(3):
+        list_invalid = np.where(lv4_matrix[:,:,channel]==False)
+        for i in range(len(list_invalid[0])):
+            ir = list_invalid[0][i]
+            ic = list_invalid[1][i]
+            if ir%2 == 0 and ic%2!=0:
+                if (ic-1)>=0&(ic+1)<nc&lv4_matrix[ir,ic-1,channel] and lv4_matrix[ir,ic+1,channel]:
+                    lv5_matrix[ir,ic,channel] = 1
+                    count+=1
+                    r2_img[ir,ic,channel] = np.mean([r1_img[ir,ic-1,channel],r1_img[ir,ic+1,channel]]).round().astype(np.uint8)
+                else: continue
+            elif ir%2 != 0 and ic%2==0:
+                if (ir-1)>=0&(ir+1)<nr&lv4_matrix[ir-1,ic,channel] and lv4_matrix[ir+1,ic,channel]:
+                    lv5_matrix[ir,ic,channel] = 1
+                    count+=1
+                    r2_img[ir,ic,channel] = np.mean([r1_img[ir-1,ic,channel],r1_img[ir+1,ic,channel]]).round().astype(np.uint8)
+                else: continue
+            elif ir%2!=0 and ic%2!=0:
+                is_True = (ic-1)>=0&(ic+1)<nc&(ir-1)>=0&(ir+1)<nr
+                if is_True&lv4_matrix[ir-1,ic-1,channel] and lv4_matrix[ir-1,ic+1,channel] and lv4_matrix[ir+1,ic-1,channel]and lv4_matrix[ir+1,ic+1,channel]:
+                    lv5_matrix[ir,ic,channel] = 1
+                    count+=1
+                    r2_img[ir,ic,channel] = np.mean([r1_img[ir-1,ic-1,channel],r1_img[ir-1,ic+1,channel],r1_img[ir+1,ic-1,channel],r1_img[ir+1,ic+1,channel]]).round().astype(np.uint8)
+                else: continue
+            else: continue
+    for channel in range(3):
+        list_valid = np.where(lv4_matrix[:,:,channel]==True)
+        for i in range(len(list_valid[0])):
+            ir = list_valid[0][i]
+            ic = list_valid[0][i]
+            bits = np.unpackbits(r1_img[ir,ic,channel])
+            if bits[5] == 1 & bits[6]==1 & bits[7]==1: 
+                bits[7] = 0
+                r2_img[ir,ic,channel] = np.packbits(bits)
+            if bits[5] == 0 & bits[6] == 0 & bits[7] == 0:
+                bits[6] = 1
+                r2_img[ir,ic,channel] = np.packbits(bits)
+    return r2_img,lv5_matrix
